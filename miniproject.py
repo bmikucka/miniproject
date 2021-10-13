@@ -1,6 +1,10 @@
-sprotseq="/Users/basia/Desktop/mini_project/P11413.faa"
-#pdbseq="/Users/basia/Desktop/mini_project/PDB5ukw_mutant.faa"
-pdbseq_nonmut="/Users/basia/Desktop/mini_project/PDB5ukw_nomutant.faa"
+import sys
+
+file1 = sys.argv[1]
+file2 = sys.argv[2]
+
+print ('first argument was:' + file1)
+print ("second file was:" + file2)
 
 def read_file(filename):
 	"""Read input files and return without first line"""
