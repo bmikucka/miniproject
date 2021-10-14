@@ -18,7 +18,6 @@ def compare_seqs (sprotseq, pdbseq):
 	no_breaks(sprotseq)
 	read_file(pdbseq)
 	no_breaks(pdbseq)
-	print(pdbseq, sprotseq)
 	return True if pdbseq in sprotseq else False
 
 
