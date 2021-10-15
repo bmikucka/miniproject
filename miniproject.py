@@ -3,26 +3,33 @@ import sys
 sprotseq = sys.argv[1]
 pdbseq = sys.argv[2]
 
-#reading the files here and uppercase so can be compared
+#reading the files and deleting breaks
 def read_file(filename):
-	"""Read input files and return as uppercase"""
+	"""Read input files"""
 	with open(filename) as file:
-		return file.readlines().upper() [1:]
+		file = file.read().replace('\n', '') 
+		return file 
 
-#making sure the breaks dont interfere with comaprison
-def no_breaks(file):
-	"""Gets rid of the rows in the file"""
-	return file.strip
+print(read_file("test.faa"))
+
+
+def edit_file(file):
+	"""reads the file, deletes breaks and makes all characters upper case"""
+	file = read_file(file)
+	file = file.upper()
+	return file
+
+print(edit_file("test.faa"))
+
 
 #reading the two files and changing them to compare
 #still need to remove the identifier bits off the pdb chain to be able to compare them
 def compare_seqs (sprotseq, pdbseq):
 	"""Compare 2 sequences to identity whether the PDB sequence pdbseq is the same as the swiss prot sequence sprotseq"""
-	read_file(sprotseq)
-	no_breaks(sprotseq)
-	read_file(pdbseq)
-	no_breaks(pdbseq)
+	sprotseq = edit_file(sprotseq)
+	pdbseq = edit_file(pdbseq)
 	return True if pdbseq in sprotseq else False
 
-#nothing comes back - no true or false.
+print(compare_seqs ("test.faa", "test2.faa"))
+print(compare_seqs (sprotseq, pdbseq))
 
