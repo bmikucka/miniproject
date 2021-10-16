@@ -10,16 +10,17 @@ def read_file(filename):
 		file = file.read().replace('\n', '') 
 		return file 
 
-print(read_file("test.faa"))
+print("Read file function works if testfile:" + (read_file("test.faa")))
 
 
 def edit_file(file):
-	"""reads the file, deletes breaks and makes all characters upper case"""
+	"""reads the file, deletes breaks and makes all characters upper case. deletes first 7 characters"""
 	file = read_file(file)
 	file = file.upper()
+	file = file[7:]
 	return file
 
-print(edit_file("test.faa"))
+print("Edit file function works if TESTFILE:" + (edit_file("test.faa")))
 
 
 #reading the two files and changing them to compare
@@ -28,8 +29,16 @@ def compare_seqs (sprotseq, pdbseq):
 	"""Compare 2 sequences to identity whether the PDB sequence pdbseq is the same as the swiss prot sequence sprotseq"""
 	sprotseq = edit_file(sprotseq)
 	pdbseq = edit_file(pdbseq)
-	return True if pdbseq in sprotseq else False
+	#return True if pdbseq in sprotseq else False
+	return (print("The sequences are the same") if pdbseq in sprotseq else print ("The sequences are different"))
 
-print(compare_seqs ("test.faa", "test2.faa"))
+#test compare_seq function
+print ("compare seqs works if true:")
+print((compare_seqs ("test.faa", "test2.faa")))
+
 print(compare_seqs (sprotseq, pdbseq))
+
+#print(edit_file(pdbseq))
+
+
 
