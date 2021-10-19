@@ -6,7 +6,7 @@ pdbseq = sys.argv[2]
 
 #reading the files and deleting breaks
 def read_file(filename):
-	"""Read input files"""
+	"""Read input files without first row and delete breaks"""
 	with open(filename) as file:
 		rows = file.readlines()[1:]
 		combined = ''.join(rows)
@@ -14,11 +14,11 @@ def read_file(filename):
 		return combined 
 
 print("does read_file work?" + (read_file("test.faa")))
-print((read_file(pdbseq)))
+#print((read_file(pdbseq)))
 
 
 def edit_file(file):
-	"""reads the file, deletes breaks and makes all characters upper case. deletes first 7 characters"""
+	"""reads the file and makes all characters upper case"""
 	file = read_file(file)
 	file = file.upper()
 	return file
@@ -32,15 +32,17 @@ def compare_seqs (sprotseq, pdbseq):
 	sprotseq = edit_file(sprotseq)
 	pdbseq = edit_file(pdbseq)
 	#return True if pdbseq in sprotseq else False
-	return print("The sequences are the same") if pdbseq in sprotseq else print ("The sequences are different")
+	return True if pdbseq in sprotseq else False
 
-	
+
+#print("The sequences are the same") if pdbseq in sprotseq else print ("The sequences are different")
 
 
 #test compare_seq function
 print ("test comparison:")
-print((compare_seqs ("test.faa", "test2.faa")))
+print(compare_seqs ("test.faa", "test2.faa"))
 
+print ("Swiss Prot and PDB sequences are the same:")
 print(compare_seqs(sprotseq, pdbseq))
 
 #print(edit_file(pdbseq))
