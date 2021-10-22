@@ -52,6 +52,8 @@ best_offset = 0		#best offset position
 best_number_of_matches = 0 		# how well the best offset scores
 
 def define_lengths (pdbseq, sprotseq):
+	pdbseq = edit_file(pdbseq)
+	sprotseq = edit_file(sprotseq)
 	if len(pdbseq) < len(sprotseq):
 		L = sprotseq
 		S = pdbseq
@@ -63,52 +65,35 @@ def define_lengths (pdbseq, sprotseq):
 		L = pdbseq
 	return L, S
 
-#test define_lenghts
-print(define_lengths(edit_file("test.faa"), edit_file("test2.faa")))
 
-def get_matches (L, S, offset): 
+def get_matches (sprotseq, pdbseq, offset): 
 	"""Returns number_of_matches between L and S at a certain offset"""
-	position = range(len(S)) #for all the positions in shorter sequence
-	print (position)
+	(L, S) = define_lengths (sprotseq, pdbseq) 		
+	position = range(len(S))		 #for all the positions in shorter sequence
 	number_of_matches = 0
 	for x in position:
 		if ((x + offset < len(L)) and (L[x + offset] == S[x])):
-			number_of_matches = number_of_matches + 1 #increase number of matches for each match of S position to L position+offset
+			number_of_matches = number_of_matches + 1 		#increase number of matches for each match of S position to L position+offset
 	return number_of_matches
 
-#test get_matches
-print(get_matches(edit_file("test.faa"), edit_file("test2.faa"), 0))
-
-#offsets to check - len(L) - len(S)
-#offsets = len(L) - len(S) 
-
-#if number_of_matches > best_number_of_matches:
-	#best_number_of_matches = number_of_matches
-
-#if compare_seqs (sprotseq, pdbseq) == True:
-	#define_lengths (pdbseq, sprotseq)
-	#get_matches (L, S, )
 
 
+#offsets to check
+def check_all_offsets (sprotseq, pdbseq):
+	(L, S) = define_lengths (sprotseq, pdbseq)
+	best_number_of_matches = 0
+	offsets = range(len(L) - len(S))
+	for x in offsets:
+		number_of_matches = get_matches (sprotseq, pdbseq, x)
+		if number_of_matches > best_number_of_matches:
+			best_number_of_matches = number_of_matches
+			best_offset = x
+	return best_number_of_matches, best_offset
+
+print(check_all_offsets ("test.faa", "test2.faa"))
 
 
-
-
-
-
-
-#compare characters in sequences 
-#def differences (seq1, seq2):
-	#"""Prints the number of differences across two strings seq1 and seq 2"""
-	#count = sum(1 for a, b in zip(seq1, seq2) if a != b)
-	#return print(count)
-
-#slide sequence  - put differences into it, print differences in the smallest number of differences
-
-
-
-
-
+#what are the mismatches based on best_offset
 
 
 
