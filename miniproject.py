@@ -49,7 +49,7 @@ def read_file(filename):
 		#make into string
 		file_edited = ''.join(rows) 
 		#get rid of breaks
-		file_edited = combined.replace('\n', '') 
+		file_edited = file_edited.replace('\n', '') 
 		#make all letters uppercase
 		file_edited = file_edited.upper() 	
 		return file_edited 
@@ -200,13 +200,12 @@ def show_mismatches (sprotseq, pdbseq):
 
 #*************************************************************************
 
-file1 = sys.argv[1]
-file2 = sys.argv[2]
+#file1 = sys.argv[1]
+#file2 = sys.argv[2]
 
-print("does read_file work?" + (read_file("test.faa")))
-#print((read_file(pdbseq)))
+print("does read_file work?" + (read_file ("test.faa")))
 
-print((edit_file("test.faa")))
+print((read_file("test2.faa")))
 
 #print("The sequences are the same") if pdbseq in sprotseq else print ("The sequences are different")
 
@@ -216,9 +215,8 @@ print ("test comparison:")
 print(compare_seqs ("test.faa", "test2.faa"))
 
 print ("Swiss Prot and PDB sequences are the same:")
-print(compare_seqs(sprotseq, pdbseq))
+#print(compare_seqs(file1, file2))
 
-#print(edit_file(pdbseq))
 
 #print(check_all_offsets ("test.faa", "test2.faa"))
 
