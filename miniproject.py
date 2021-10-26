@@ -48,9 +48,6 @@ print(compare_seqs(sprotseq, pdbseq))
 #print(edit_file(pdbseq))
 
 
-best_offset = 0		#best offset position
-best_number_of_matches = 0 		# how well the best offset scores
-
 def define_lengths (pdbseq, sprotseq):
 	pdbseq = edit_file(pdbseq)
 	sprotseq = edit_file(sprotseq)
@@ -90,7 +87,26 @@ def check_all_offsets (sprotseq, pdbseq):
 			best_offset = x
 	return best_number_of_matches, best_offset
 
-print(check_all_offsets ("test.faa", "test2.faa"))
+#print(check_all_offsets ("test.faa", "test2.faa"))
+
+def show_mismatches (sprotseq, pdbseq):
+	(best_number_of_matches, best_offset) = check_all_offsets (sprotseq, pdbseq)
+	(L, S) = define_lengths (sprotseq, pdbseq) 	
+	position = range(len(S))
+	for x in position:
+		if ((x + best_offset < len(L)) and (L[x + best_offset] != S[x])):
+			print ("Mismatch at short sequence position")
+			print (x)
+			print ("with long sequence position")
+			print (x + best_offset)
+			
+
+
+
+show_mismatches ("test.faa", "test2.faa")
+
+
+
 
 
 #what are the mismatches based on best_offset
