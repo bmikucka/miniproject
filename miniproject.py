@@ -42,6 +42,13 @@ def read_file(filename):
 	Return: file_edited 	--- string with uppercase amino acid sequence 
 
 	26.10.21 	Original 	By: BAM
+
+	>>> read_file("test.faa")
+	'HELLOWORLD'
+	>>> read_file("test2.faa")
+	'AAHETTOWORLDZZ'
+	>>>
+
 	"""
 	with open(filename) as file:
 		#read all but first line
@@ -53,6 +60,10 @@ def read_file(filename):
 		#make all letters uppercase
 		file_edited = file_edited.upper() 	
 		return file_edited 
+
+if __name__ == "__main__":
+   import doctest
+   doctest.testmod()
 
 
 #*************************************************************************
@@ -66,6 +77,13 @@ def compare_seqs (pdb_file, sprot_file):
 							sequence, otherwise False.
 
 	26.10.21 	Original 	By: BAM
+
+	>>> compare_seqs("test1.faa", "test.faa")
+	True
+	>>> compare_seqs("test.faa", "test2.faa")
+	False	
+	>>> 
+
 	"""
 
 	#(read and edit the two sequence files to make pdbseq and sprotseq 
@@ -74,6 +92,10 @@ def compare_seqs (pdb_file, sprot_file):
 	pdbseq = read_file(pdb_file)
 	#return True if pdbseq is contained within sprotseq
 	return True if pdbseq in sprotseq else False
+
+if __name__ == "__main__":
+   import doctest
+   doctest.testmod()
 
 
 #*************************************************************************
@@ -88,6 +110,13 @@ def define_lengths (pdb_file, sprot_file):
 	
 
 	26.10.21 	Original 	By: BAM
+
+	>>> define_lengths ("test.faa", "test2.faa")
+	('AAHETTOWORLDZZ', 'HELLOWORLD')
+	>>> define_lengths ("test2.faa", "test.faa")
+	('AAHETTOWORLDZZ', 'HELLOWORLD')
+	>>> 
+
 	"""
 
 	#read and edit files to make string of only amino acid sequences
@@ -107,6 +136,10 @@ def define_lengths (pdb_file, sprot_file):
 	#return tuple that includes the long_seq and short_seq
 	return long_seq, short_seq
 
+if __name__ == "__main__":
+   import doctest
+   doctest.testmod()
+
 
 #*************************************************************************
 def get_matches (sprotseq, pdbseq, offset): 
@@ -121,6 +154,14 @@ def get_matches (sprotseq, pdbseq, offset):
 	
 
 	26.10.21 	Original 	By: BAM
+
+	>>> get_matches ("test2.faa", "test.faa", 1)
+	0
+	>>> get_matches ("test2.faa", "test.faa", 2)
+	8
+	>>> get_matches ("test2.faa", "test.faa", 3)
+	0
+	>>> 
 	"""
 
 	#use the define_lengths function to read and edit files and identify the shorter and longer sequence
@@ -137,6 +178,10 @@ def get_matches (sprotseq, pdbseq, offset):
 			number_of_matches = number_of_matches + 1 		
 	return number_of_matches
 
+if __name__ == "__main__":
+   import doctest
+   doctest.testmod()
+
 
 #*************************************************************************
 def check_all_offsets (sprotseq, pdbseq):
@@ -150,6 +195,12 @@ def check_all_offsets (sprotseq, pdbseq):
 	
 
 	26.10.21 	Original 	By: BAM
+
+	>>> check_all_offsets ("test2.faa", "test.faa")
+	(8, 2)
+	>>> check_all_offsets ("test1.faa", "test.faa")
+	(5, 0)
+	>>> 
 	"""
 
 	#use define_lengths to get short and long sequence between two sequences
@@ -167,6 +218,10 @@ def check_all_offsets (sprotseq, pdbseq):
 			best_offset = x
 	return best_number_of_matches, best_offset
 
+if __name__ == "__main__":
+   import doctest
+   doctest.testmod()
+
 
 #*************************************************************************
 def show_mismatches (sprotseq, pdbseq):
@@ -178,6 +233,26 @@ def show_mismatches (sprotseq, pdbseq):
 			pdbseq					--- string of amino acid sequence from Swiss Prot file 
 
 	26.10.21 	Original 	By: BAM
+
+	>>> show_mismatches ("test2.faa", "test.faa")
+	Mismatch at short sequence position
+	3
+	with long sequence position
+	5
+	Mismatch at short sequence position
+	4
+	with long sequence position
+	6
+	>>> show_mismatches ("test2.faa", "test1.faa")
+	Mismatch at short sequence position
+	3
+	with long sequence position
+	5
+	Mismatch at short sequence position
+	4
+	with long sequence position
+	6
+	>>> 
 	"""
 
 	#use check_all_offsets to get best number of matches and best offset to use for this alignment
@@ -198,29 +273,16 @@ def show_mismatches (sprotseq, pdbseq):
 			print ("with long sequence position")
 			print (x + best_offset + 1) 
 
+if __name__ == "__main__":
+   import doctest
+   doctest.testmod()
+
+
 #*************************************************************************
 
 #file1 = sys.argv[1]
 #file2 = sys.argv[2]
 
-print("does read_file work?" + (read_file ("test.faa")))
-
-print((read_file("test2.faa")))
-
-#print("The sequences are the same") if pdbseq in sprotseq else print ("The sequences are different")
-
-
-#test compare_seq function
-print ("test comparison:")
-print(compare_seqs ("test.faa", "test2.faa"))
-
-print ("Swiss Prot and PDB sequences are the same:")
-#print(compare_seqs(file1, file2))
-
-
-#print(check_all_offsets ("test.faa", "test2.faa"))
-
-#show_mismatches ("test.faa", "test2.faa")
 
 
 
