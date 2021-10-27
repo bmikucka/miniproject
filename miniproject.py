@@ -61,9 +61,9 @@ def read_file(filename):
 		file_edited = file_edited.upper() 	
 		return file_edited 
 
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
+#if __name__ == "__main__":
+   #import doctest
+   #doctest.testmod()
 
 
 #*************************************************************************
@@ -93,9 +93,9 @@ def compare_seqs (pdb_file, sprot_file):
 	#return True if pdbseq is contained within sprotseq
 	return True if pdbseq in sprotseq else False
 
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
+#if __name__ == "__main__":
+   #import doctest
+   #doctest.testmod()
 
 
 #*************************************************************************
@@ -136,18 +136,18 @@ def define_lengths (pdb_file, sprot_file):
 	#return tuple that includes the long_seq and short_seq
 	return long_seq, short_seq
 
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
+#if __name__ == "__main__":
+   #import doctest
+   #doctest.testmod()
 
 
 #*************************************************************************
-def get_matches (sprotseq, pdbseq, offset): 
+def get_matches (sprot_file, pdb_file, offset): 
 	"""Returns number of amino acid matches between two input sequences 
 	with the longer sequence at defined offset
 
-	Input: 	sprotseq 			--- string of amino acid sequence from PDB file 
-			pdbseq				--- string of amino acid sequence from Swiss Prot file 
+	Input: 	pdb_file 			--- FASTA file of PDB amino acid sequence
+			sprot_file			--- FASTA file of Swiss Prot amino acid sequence
 			offset 				--- integer by which the longer and shorter 
 									sequence are offset for comparison 
 	Return: number_of_matches 	--- integer, number of matches between two sequences
@@ -165,7 +165,7 @@ def get_matches (sprotseq, pdbseq, offset):
 	"""
 
 	#use the define_lengths function to read and edit files and identify the shorter and longer sequence
-	(long_seq, short_seq) = define_lengths (sprotseq, pdbseq) 	
+	(long_seq, short_seq) = define_lengths (sprot_file, pdb_file) 	
 	#check matches for all positions along shorter sequence
 	position = range(len(short_seq))
 	number_of_matches = 0
@@ -178,18 +178,18 @@ def get_matches (sprotseq, pdbseq, offset):
 			number_of_matches = number_of_matches + 1 		
 	return number_of_matches
 
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
+#if __name__ == "__main__":
+   #import doctest
+   #doctest.testmod()
 
 
 #*************************************************************************
-def check_all_offsets (sprotseq, pdbseq):
+def check_all_offsets (sprot_file, pdb_file):
 	"""Returns a tuple of total matches between two sequences and the 
 	offset value that results in this best match number
 
-	Input: 	sprotseq 				--- string of amino acid sequence from PDB file 
-			pdbseq					--- string of amino acid sequence from Swiss Prot file 
+	Input: 	pdb_file 				--- FASTA file of PDB amino acid sequence
+			sprot_file				--- FASTA file of Swiss Prot amino acid sequence
 	Return: best_number_of_matches 	--- number of matches between two sequences
 			best_offset 			--- offset value that gives the most matches (best alignment of sequences)
 	
@@ -204,33 +204,33 @@ def check_all_offsets (sprotseq, pdbseq):
 	"""
 
 	#use define_lengths to get short and long sequence between two sequences
-	(long_seq, short_seq) = define_lengths (sprotseq, pdbseq)
+	(long_seq, short_seq) = define_lengths (sprot_file, pdb_file)
 	best_number_of_matches = 0
 	#possible offsets include all integers in range from 0 to the difference in length of the sequences
 	offsets = range(len(long_seq) - len(short_seq))
 	
 	for x in offsets:
 		#get number_of_matches using get_matches function and all possible offsets
-		number_of_matches = get_matches (sprotseq, pdbseq, x)
+		number_of_matches = get_matches (sprot_file, pdb_file, x)
 		if number_of_matches > best_number_of_matches:
 			#if the number of matches for this offset is better than for previous matches it becomes best_number_of_matches
 			best_number_of_matches = number_of_matches
 			best_offset = x
 	return best_number_of_matches, best_offset
 
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
+#if __name__ == "__main__":
+   #import doctest
+   #doctest.testmod()
 
 
 #*************************************************************************
-def show_mismatches (sprotseq, pdbseq):
+def show_mismatches (sprot_file, pdb_file):
 	"""Print positions of all mismatches in the best alignment between 
 	sequences sprotseq and pdbseq, with respect to positions in longer and 
 	shorter sequence (position 1 is the fisrt amino acid in the sequence)
 
-	Input: 	sprotseq 				--- string of amino acid sequence from PDB file 
-			pdbseq					--- string of amino acid sequence from Swiss Prot file 
+	Input: 	pdb_file 	--- FASTA file of PDB amino acid sequence
+			sprot_file	--- FASTA file of Swiss Prot amino acid sequence
 
 	26.10.21 	Original 	By: BAM
 
@@ -256,9 +256,9 @@ def show_mismatches (sprotseq, pdbseq):
 	"""
 
 	#use check_all_offsets to get best number of matches and best offset to use for this alignment
-	(best_number_of_matches, best_offset) = check_all_offsets (sprotseq, pdbseq)
+	(best_number_of_matches, best_offset) = check_all_offsets (sprot_file, pdb_file)
 	#use define_lengths to get the two sequences
-	(long_seq, short_seq) = define_lengths (sprotseq, pdbseq)
+	(long_seq, short_seq) = define_lengths (sprot_file, pdb_file)
 	#check all positions along the short sequence
 	position = range(len(short_seq))
 	
@@ -269,19 +269,26 @@ def show_mismatches (sprotseq, pdbseq):
 			#print the mismatches relative to short and long sequence position
 			print ("Mismatch at short sequence position") 
 			#1st position is the first letter (not like python with position 0 being first)
-			print (x + 1)
+			print (x + 1) 
+			print(short_seq[x])
 			print ("with long sequence position")
 			print (x + best_offset + 1) 
+			print(long_seq[(x + best_offset)])
 
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
+#if __name__ == "__main__":
+   #import doctest
+   #doctest.testmod()
 
 
 #*************************************************************************
 
-#file1 = sys.argv[1]
-#file2 = sys.argv[2]
+sprot_file = sys.argv[1]
+pdb_file = sys.argv[2]
+
+compare_seqs(sprot_file, pdb_file)
+
+if compare_seqs (sprot_file, pdb_file) is False:
+	show_mismatches (sprot_file, pdb_file)
 
 
 
