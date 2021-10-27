@@ -61,9 +61,9 @@ def read_file(filename):
 		file_edited = file_edited.upper() 	
 		return file_edited 
 
-#if __name__ == "__main__":
-   #import doctest
-   #doctest.testmod()
+if __name__ == "__main__":
+   import doctest
+   doctest.testmod()
 
 
 #*************************************************************************
@@ -86,16 +86,16 @@ def compare_seqs (pdb_file, sprot_file):
 
 	"""
 
-	#(read and edit the two sequence files to make pdbseq and sprotseq 
+	#read and edit the two sequence files to make pdbseq and sprotseq 
 	#(contain the sequence as a string only)
 	sprotseq = read_file(sprot_file)
 	pdbseq = read_file(pdb_file)
 	#return True if pdbseq is contained within sprotseq
 	return True if pdbseq in sprotseq else False
 
-#if __name__ == "__main__":
-   #import doctest
-   #doctest.testmod()
+if __name__ == "__main__":
+   import doctest
+   doctest.testmod()
 
 
 #*************************************************************************
@@ -286,6 +286,10 @@ sprot_file = sys.argv[1]
 pdb_file = sys.argv[2]
 
 compare_seqs(sprot_file, pdb_file)
+
+if compare_seqs (sprot_file, pdb_file) is True:
+	print ("No mutations identified in PDB sequence")
+
 
 if compare_seqs (sprot_file, pdb_file) is False:
 	show_mismatches (sprot_file, pdb_file)
