@@ -1,4 +1,3 @@
-#to run: python3 miniproject.py P11413.faa PDB5ukw_nomutant.faa
 
 """
 Program: miniproject
@@ -20,7 +19,7 @@ If the sequences are different the program identifies the mismatches.
 --------------------------------------------------------------------------
 Usage:
 ======
-miniproject file1 file2
+miniproject file1 file2 test.faa test1.faa test2.faa
 
 --------------------------------------------------------------------------
 Revision history:
@@ -302,17 +301,3 @@ if __name__ == "__main__":
 
 #*************************************************************************
 
-sprot_file = sys.argv[1]
-pdb_file = sys.argv[2]
-
-
-if if_sequences_match (sprot_file, pdb_file) == False:
-   show_mismatches (sprot_file, pdb_file)
-
-   
-
-if if_sequences_match ("test.faa", "test1.faa") == False:
-   show_mismatches ("test.faa", "test1.faa")
-
-if_sequences_match (sprot_file, pdb_file)
-if_sequences_match ("test.faa", "test1.faa")
