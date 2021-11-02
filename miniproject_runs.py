@@ -1,4 +1,4 @@
-#to run: python3 miniproject.py P11413.faa PDB5ukw_nomutant.faa
+#to run: python3 miniproject_runs.py P11413.faa PDB5ukw_nomutant.faa
 """
 Program:  miniproject_read
 File:     miniproject_readpy
@@ -33,7 +33,7 @@ V1.0  29.10.21    Original    By: BAM
 import sys
 
 from miniproject import (read_file, if_sequences_match, define_lengths, 
-   get_matches, check_all_offsets, show_mismatches)
+   get_matches, check_all_offsets, show_mismatches, get_mutations)
 
 
 #*************************************************************************
@@ -44,6 +44,8 @@ from miniproject import (read_file, if_sequences_match, define_lengths,
 sprot_file = sys.argv[1]
 pdb_file = sys.argv[2]
 
+
+#if no specific residue to check
 if len(sys.argv) == 3:
    #check if the sequences match
    if if_sequences_match (sprot_file, pdb_file):
@@ -52,20 +54,20 @@ if len(sys.argv) == 3:
    else:
       #if mutations present prints the differences
       show_mismatches (sprot_file, pdb_file)
-    #THIS PART WORKS
-elif len(sys.argv) == 4:
-   #4th optional character - the residue of interest
-   residue_check = sys.argv[3]
-   mutations =
-   for x in mutations:
-      if residue_check == x:
-         print ("The residue of interest is mutated in the sequence provided.")
-      else:
-         print ("The residue of interest is NOT mutated in the sequence provided.")
+
+      #if have a specific residue to check
+      if len(sys.argv) == 4:
+         mutated_residue = sys.argv[3]
+         #get list of mutated residues relative to Swiss Prot (longer) sequence
+         mutations = get_mutations (sprot_file, pdb_file)
+         #check if the residue of interest is mutated
+         if mutated_residue in mutations:
+            print ("The residue of interest is mutated in the sequence provided.")
+         else:
+            print ("The residue of interest is NOT mutated in the sequence provided.")
 
 
 
+         
 
-
-   
 

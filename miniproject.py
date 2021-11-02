@@ -300,4 +300,48 @@ if __name__ == "__main__":
 
 
 #*************************************************************************
+def get_mutations (sprot_file, pdb_file):
+   """Returns a list of all mismatches between the sequence in the Swiss Prot 
+   file and PDB file, relative to the longer (Swiss Prot) sequence.
 
+   Input:   pdb_file        --- FASTA file of PDB amino acid sequence
+            sprot_file      --- FASTA file of Swiss Prot amino acid sequence
+   Return:  all_mutations   --- list of residues mismatched between Swiss Prot 
+                                 and PDB sequences relative to longer sequence
+           
+      
+
+   02.11.21    Original    By: BAM
+
+   >>> get_mutations ("test2.faa", "test.faa")
+   [5, 6]
+   >>> get_mutations ("test1.faa", "test.faa")
+   []
+   >>>
+   """
+
+   #use check_all_offsets to get best number of matches and best offset to use for this alignment
+   (best_number_of_matches, best_offset) = check_all_offsets (sprot_file, pdb_file)
+   #use define_lengths to get the two sequences
+   (long_seq, short_seq) = define_lengths (sprot_file, pdb_file)
+   #check all positions along the short sequence
+   positions = range(len(short_seq))
+   
+   #make a list of mutations
+   mutations = []
+
+   for x in positions:
+      #check the positions being checked are in the sequence
+      #if the letter is not the same 
+      if ((x + best_offset < len(long_seq)) and
+      (long_seq[x + best_offset] != short_seq[x])):
+         #add the positions that match this to a list
+         mutations.append(x + 1 + best_offset)
+
+   return mutations
+
+if __name__ == "__main__":
+   import doctest
+   doctest.testmod()
+
+   #*************************************************************************
