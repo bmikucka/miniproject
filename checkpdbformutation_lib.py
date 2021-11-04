@@ -63,7 +63,7 @@ def read_file(filename):
 
 
 #*************************************************************************
-def if_sequences_match (pdb_file, sprot_file):
+def sequences_match (pdb_file, sprot_file):
    """Compare 2 sequences to identity whether the PDB sequence in the 
    pdb_file is contained within the swiss prot sequence in the sprot_file
 
@@ -74,10 +74,10 @@ def if_sequences_match (pdb_file, sprot_file):
 
    26.10.21    Original    By: BAM
 
-   >>> if_sequences_match ("test1.faa", "test.faa")
+   >>> sequences_match ("test1.faa", "test.faa")
    No mutations identified in PDB sequence
    True
-   >>> if_sequences_match ("test.faa", "test2.faa")
+   >>> sequences_match ("test.faa", "test2.faa")
    False
    >>> 
 
