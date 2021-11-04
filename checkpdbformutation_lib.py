@@ -89,7 +89,6 @@ def sequences_match (pdb_file, sprot_file):
    pdbseq = read_file(pdb_file)
    #return True if pdbseq is contained within sprotseq
    if pdbseq in sprotseq:
-      print("No mutations identified in PDB sequence")
       return True
    else: 
       return False
