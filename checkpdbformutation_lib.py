@@ -61,10 +61,6 @@ def read_file(filename):
       file_edited = file_edited.upper()   
       return file_edited 
 
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
-
 
 #*************************************************************************
 def if_sequences_match (pdb_file, sprot_file):
@@ -97,10 +93,6 @@ def if_sequences_match (pdb_file, sprot_file):
       return True
    else: 
       return False
-
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
 
 
 #*************************************************************************
@@ -140,10 +132,6 @@ def define_lengths (pdb_file, sprot_file):
       long_seq = pdbseq
    #return tuple that includes the long_seq and short_seq
    return long_seq, short_seq
-
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
 
 
 #*************************************************************************
@@ -185,10 +173,6 @@ def get_matches (sprot_file, pdb_file, offset):
          number_of_matches = number_of_matches + 1       
    return number_of_matches
 
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
-
 
 #*************************************************************************
 def check_all_offsets (sprot_file, pdb_file):
@@ -226,10 +210,6 @@ def check_all_offsets (sprot_file, pdb_file):
          best_number_of_matches = number_of_matches
          best_offset = x
    return best_number_of_matches, best_offset
-
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
 
 
 #*************************************************************************
@@ -295,9 +275,6 @@ def show_mismatches (sprot_file, pdb_file):
          print (x + best_offset + 1) 
          print(long_seq[(x + best_offset)])
 
-if __name__ == "__main__":
-   import doctest
-   doctest.testmod()
 
 
 #*************************************************************************
@@ -341,8 +318,11 @@ def get_mutations (sprot_file, pdb_file):
 
    return mutations
 
+
+   #*************************************************************************
+
 if __name__ == "__main__":
    import doctest
    doctest.testmod()
 
-   #*************************************************************************
+
