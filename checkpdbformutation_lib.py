@@ -63,7 +63,7 @@ def read_file(filename):
 
 
 #*************************************************************************
-def sequences_match (pdb_file, sprot_file):
+def fasta_files_match (pdb_file, sprot_file):
    """Compare 2 sequences to identity whether the PDB sequence in the 
    pdb_file is contained within the swiss prot sequence in the sprot_file
 
@@ -74,10 +74,10 @@ def sequences_match (pdb_file, sprot_file):
 
    26.10.21    Original    By: BAM
 
-   >>> sequences_match ("test1.faa", "test.faa")
+   >>> fasta_files_match ("test1.faa", "test.faa")
    No mutations identified in PDB sequence
    True
-   >>> sequences_match ("test.faa", "test2.faa")
+   >>> fasta_files_match ("test.faa", "test2.faa")
    False
    >>> 
 
@@ -95,7 +95,7 @@ def sequences_match (pdb_file, sprot_file):
 
 
 #*************************************************************************
-def define_lengths (pdb_file, sprot_file):
+def identify_short_sequence (pdb_file, sprot_file):
    """Identify the shorter and longer sequence between the amino acid 
    sequence in the PDB and Swiss Prot files
 
@@ -107,9 +107,9 @@ def define_lengths (pdb_file, sprot_file):
 
    26.10.21    Original    By: BAM
 
-   >>> define_lengths ("test.faa", "test2.faa")
+   >>> identify_short_sequence ("test.faa", "test2.faa")
    ('AAHETTOWORLDZZ', 'HELLOWORLD')
-   >>> define_lengths ("test2.faa", "test.faa")
+   >>> identify_short_sequence ("test2.faa", "test.faa")
    ('AAHETTOWORLDZZ', 'HELLOWORLD')
    >>> 
 
@@ -134,7 +134,7 @@ def define_lengths (pdb_file, sprot_file):
 
 
 #*************************************************************************
-def get_matches (sprot_file, pdb_file, offset): 
+def get_number_of_matches (sprot_file, pdb_file, offset): 
    """Returns number of amino acid matches between two input sequences 
    with the longer sequence at defined offset
 
@@ -147,18 +147,18 @@ def get_matches (sprot_file, pdb_file, offset):
 
    26.10.21    Original    By: BAM
 
-   >>> get_matches ("test2.faa", "test.faa", 1)
+   >>> get_number_of_matches ("test2.faa", "test.faa", 1)
    0
-   >>> get_matches ("test2.faa", "test.faa", 2)
+   >>> get_number_of_matches ("test2.faa", "test.faa", 2)
    8
-   >>> get_matches ("test2.faa", "test.faa", 3)
+   >>> get_number_of_matches ("test2.faa", "test.faa", 3)
    0
    >>> 
    """
 
-   #use the define_lengths function to read and edit files and 
+   #use the identify_short_sequence function to read and edit files and 
    #identify the shorter and longer sequence
-   (long_seq, short_seq) = define_lengths (sprot_file, pdb_file)  
+   (long_seq, short_seq) = identify_short_sequence(sprot_file, pdb_file)  
    #check matches for all positions along shorter sequence
    positions = range(len(short_seq))
    number_of_matches = 0
@@ -194,15 +194,15 @@ def check_all_offsets (sprot_file, pdb_file):
    >>> 
    """
 
-   #use define_lengths to get short and long sequence between two sequences
-   (long_seq, short_seq) = define_lengths (sprot_file, pdb_file)
+   #use identify_short_sequence to get short and long sequence between two sequences
+   (long_seq, short_seq) = identify_short_sequence (sprot_file, pdb_file)
    best_number_of_matches = 0
    #possible offsets include all integers in range from 0 to the difference in length of the sequences
    offsets = range(len(long_seq) - len(short_seq))
    
    for x in offsets:
-      #get number_of_matches using get_matches function and all possible offsets
-      number_of_matches = get_matches (sprot_file, pdb_file, x)
+      #get number_of_matches using get_number_of_matches function and all possible offsets
+      number_of_matches = get_number_of_matches (sprot_file, pdb_file, x)
       if number_of_matches > best_number_of_matches:
          #if the number of matches for this offset is better than 
          #for previous matches it becomes best_number_of_matches
@@ -255,8 +255,8 @@ def show_mismatches (sprot_file, pdb_file):
 
    #use check_all_offsets to get best number of matches and best offset to use for this alignment
    (best_number_of_matches, best_offset) = check_all_offsets (sprot_file, pdb_file)
-   #use define_lengths to get the two sequences
-   (long_seq, short_seq) = define_lengths (sprot_file, pdb_file)
+   #use identify)short_sequence to get the two sequences
+   (long_seq, short_seq) = identify_short_sequence (sprot_file, pdb_file)
    #check all positions along the short sequence
    positions = range(len(short_seq))
    
@@ -299,8 +299,8 @@ def get_mutations (sprot_file, pdb_file):
 
    #use check_all_offsets to get best number of matches and best offset to use for this alignment
    (best_number_of_matches, best_offset) = check_all_offsets (sprot_file, pdb_file)
-   #use define_lengths to get the two sequences
-   (long_seq, short_seq) = define_lengths (sprot_file, pdb_file)
+   #use identify_short_sequence to get the two sequences
+   (long_seq, short_seq) = identify_short_sequence (sprot_file, pdb_file)
    #check all positions along the short sequence
    positions = range(len(short_seq))
    
