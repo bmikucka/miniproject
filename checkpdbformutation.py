@@ -32,8 +32,8 @@ V1.0  29.10.21    Original    By: BAM
 
 import sys
 
-from checkpdbformutation_lib import (read_file, fasta_files_match, define_lengths, 
-   get_matches, check_all_offsets, show_mismatches, get_mutations)
+from checkpdbformutation_lib import (read_file, fasta_files_match, identify_short_sequence, 
+   get_number_of_matches, check_all_offsets, show_mismatches, get_mutations)
 
 
 #*************************************************************************
@@ -46,7 +46,7 @@ pdb_file = sys.argv[2]
 
 
 #if no specific residue to check
-if len(sys.argv) == 3:
+if len(sys.argv) >= 3:
    #check if the sequences match
    if fasta_files_match (sprot_file, pdb_file):
       print ("No mutations have been identified")

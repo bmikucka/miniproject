@@ -32,6 +32,12 @@ V1.0  26.10.21    Original    By: BAM
 # Import libraries
 
 import sys
+import test.test1
+import test.test2
+import test.test
+import test.PDB5ukw_nomutant
+import test.PDB5ukw_mutant
+import test.P11413
 
 #*************************************************************************
 def read_file(filename):
