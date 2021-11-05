@@ -20,7 +20,7 @@ If the sequences are different the program identifies the mismatches.
 --------------------------------------------------------------------------
 Usage:
 ======
-checkpdbmutation file1 file2 test.faa test1.faa test2.faa
+checkpdbmutation pdb_file sprot_file test.faa test1.faa test2.faa
 
 --------------------------------------------------------------------------
 Revision history:
@@ -32,26 +32,20 @@ V1.0  26.10.21    Original    By: BAM
 # Import libraries
 
 import sys
-import test.test1
-import test.test2
-import test.test
-import test.PDB5ukw_nomutant
-import test.PDB5ukw_mutant
-import test.P11413
 
 #*************************************************************************
 def read_file(filename):
    """Read input files without first row, delete breaks and return as 
    uppercase string
 
-   Input:   filename       --- FASTA format sequence file 
+   Input:   filename    --- FASTA format sequence file 
    Return: file_edited  --- string with uppercase amino acid sequence 
 
    26.10.21    Original    By: BAM
 
-   >>> read_file("test.faa")
+   >>> read_file("test/test.faa")
    'HELLOWORLD'
-   >>> read_file("test2.faa")
+   >>> read_file("test/test2.faa")
    'AAHETTOWORLDZZ'
    >>>
 
@@ -80,10 +74,10 @@ def fasta_files_match (pdb_file, sprot_file):
 
    26.10.21    Original    By: BAM
 
-   >>> fasta_files_match ("test1.faa", "test.faa")
+   >>> fasta_files_match ("test/test1.faa", "test/test.faa")
    No mutations identified in PDB sequence
    True
-   >>> fasta_files_match ("test.faa", "test2.faa")
+   >>> fasta_files_match ("test/test.faa", "test/test2.faa")
    False
    >>> 
 
@@ -113,9 +107,9 @@ def identify_short_sequence (pdb_file, sprot_file):
 
    26.10.21    Original    By: BAM
 
-   >>> identify_short_sequence ("test.faa", "test2.faa")
+   >>> identify_short_sequence ("test/test.faa", "test/test2.faa")
    ('AAHETTOWORLDZZ', 'HELLOWORLD')
-   >>> identify_short_sequence ("test2.faa", "test.faa")
+   >>> identify_short_sequence ("test/test2.faa", "test/test.faa")
    ('AAHETTOWORLDZZ', 'HELLOWORLD')
    >>> 
 
@@ -153,11 +147,11 @@ def get_number_of_matches (sprot_file, pdb_file, offset):
 
    26.10.21    Original    By: BAM
 
-   >>> get_number_of_matches ("test2.faa", "test.faa", 1)
+   >>> get_number_of_matches ("test/test2.faa", "test/test.faa", 1)
    0
-   >>> get_number_of_matches ("test2.faa", "test.faa", 2)
+   >>> get_number_of_matches ("test/test2.faa", "test/test.faa", 2)
    8
-   >>> get_number_of_matches ("test2.faa", "test.faa", 3)
+   >>> get_number_of_matches ("test/test2.faa", "test/test.faa", 3)
    0
    >>> 
    """
@@ -193,9 +187,9 @@ def check_all_offsets (sprot_file, pdb_file):
 
    26.10.21    Original    By: BAM
 
-   >>> check_all_offsets ("test2.faa", "test.faa")
+   >>> check_all_offsets ("test/test2.faa", "test/test.faa")
    (8, 2)
-   >>> check_all_offsets ("test1.faa", "test.faa")
+   >>> check_all_offsets ("test/test1.faa", "test/test.faa")
    (5, 0)
    >>> 
    """
@@ -228,7 +222,7 @@ def show_mismatches (sprot_file, pdb_file):
 
    26.10.21    Original    By: BAM
 
-   >>> show_mismatches ("test2.faa", "test.faa")
+   >>> show_mismatches ("test/test2.faa", "test/test.faa")
    Mismatch at short sequence position
    3
    L
@@ -242,7 +236,7 @@ def show_mismatches (sprot_file, pdb_file):
    6
    T
    >>>
-   >>> show_mismatches ("test2.faa", "test1.faa")
+   >>> show_mismatches ("test/test2.faa", "test/test1.faa")
    Mismatch at short sequence position
    3
    L
@@ -296,9 +290,9 @@ def get_mutations (sprot_file, pdb_file):
 
    02.11.21    Original    By: BAM
 
-   >>> get_mutations ("test2.faa", "test.faa")
+   >>> get_mutations ("test/test2.faa", "test/test.faa")
    [5, 6]
-   >>> get_mutations ("test1.faa", "test.faa")
+   >>> get_mutations ("test/test1.faa", "test/test.faa")
    []
    >>>
    """
