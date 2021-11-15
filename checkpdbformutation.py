@@ -50,7 +50,7 @@ if len(sys.argv) >= 3:
    #check if the sequences match
    if fasta_files_match (sprot_file, pdb_file):
       print ("No mutations have been identified")
-      #DOES NOT WORK
+      
    else:
       #if mutations present prints the differences
       show_mismatches (sprot_file, pdb_file)
@@ -60,12 +60,16 @@ if len(sys.argv) >= 3:
          mutated_residue = sys.argv[3]
          #get list of mutated residues relative to Swiss Prot (longer) sequence
          mutations = get_mutations (sprot_file, pdb_file)
-         print(mutations)
+         print (mutated_residue)
+         print (mutations)
          #check if the residue of interest is mutated
-         if mutated_residue in mutations:
+         if (mutated_residue in mutations):
             print ("The residue of interest is mutated in the sequence provided.")
-         else:
+         elif (mutated_residue not in mutations): 
             print ("The residue of interest is NOT mutated in the sequence provided.")
+
+
+            
 
 
 
