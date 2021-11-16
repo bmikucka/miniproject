@@ -1,4 +1,4 @@
-#to run: python3 checkpdbformutation.py P11413.faa PDB5ukw_nomutant.faa
+#to run: python3 checkpdbformutation.py test/P11413.faa test/PDB5ukw_nomutant.faa
 """
 Program:  checkpdbformuation
 File:     checkpdbformutation.py
@@ -48,7 +48,7 @@ pdb_file = sys.argv[2]
 #if no specific residue to check
 if len(sys.argv) >= 3:
    #check if the sequences match
-   if fasta_files_match (sprot_file, pdb_file):
+   if fasta_files_match (pdb_file, sprot_file):
       print ("No mutations have been identified")
 
    else:
@@ -60,8 +60,7 @@ if len(sys.argv) >= 3:
          mutated_residue = int(sys.argv[3])
          #get list of mutated residues relative to Swiss Prot (longer) sequence
          mutations = get_mutations (sprot_file, pdb_file)
-         print (mutated_residue)
-         print (mutations)
+      
          #check if the residue of interest is mutated
          if (mutated_residue in mutations):
             print ("The residue of interest is mutated in the sequence provided.")
