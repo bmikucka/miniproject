@@ -108,9 +108,9 @@ def identify_short_sequence (pdb_file, sprot_file):
    26.10.21    Original    By: BAM
 
    >>> identify_short_sequence ("test/test.faa", "test/test2.faa")
-   ('AAHETTOWORLDZZ', 'HELLOWORLD')
+   ('AAHETTOWORLDZZ', 'HELLOWORLD', 1)
    >>> identify_short_sequence ("test/test2.faa", "test/test.faa")
-   ('AAHETTOWORLDZZ', 'HELLOWORLD')
+   ('AAHETTOWORLDZZ', 'HELLOWORLD', 0)
    >>> 
 
    """
@@ -123,14 +123,20 @@ def identify_short_sequence (pdb_file, sprot_file):
    if len(pdbseq) < len(sprotseq):
       long_seq = sprotseq
       short_seq = pdbseq
+      a = 1
+      #'a' is used to later correclty identify the shorter and longer sequences
+      #as either PDB or Swiss Prot sequences.
    elif len(pdbseq) == len(sprotseq):
       long_seq = sprotseq
       short_seq = pdbseq
+      a = 0
    else:
       short_seq = sprotseq
       long_seq = pdbseq
+      a = 0
    #return tuple that includes the long_seq and short_seq
-   return long_seq, short_seq
+   return long_seq, short_seq, a
+
 
 
 #*************************************************************************
@@ -158,7 +164,7 @@ def get_number_of_matches (sprot_file, pdb_file, offset):
 
    #use the identify_short_sequence function to read and edit files and 
    #identify the shorter and longer sequence
-   (long_seq, short_seq) = identify_short_sequence(sprot_file, pdb_file)  
+   (long_seq, short_seq, a) = identify_short_sequence(sprot_file, pdb_file)  
    #check matches for all positions along shorter sequence
    positions = range(len(short_seq))
    number_of_matches = 0
@@ -195,7 +201,7 @@ def check_all_offsets (sprot_file, pdb_file):
    """
 
    #use identify_short_sequence to get short and long sequence between two sequences
-   (long_seq, short_seq) = identify_short_sequence (sprot_file, pdb_file)
+   (long_seq, short_seq, a) = identify_short_sequence (sprot_file, pdb_file)
    best_number_of_matches = 0
    #possible offsets include all integers in range from 0 to the difference in length of the sequences
    offsets = range(len(long_seq) - len(short_seq))
@@ -223,30 +229,30 @@ def show_mismatches (sprot_file, pdb_file):
    26.10.21    Original    By: BAM
 
    >>> show_mismatches ("test/test2.faa", "test/test.faa")
-   Mismatch at short sequence position
+   Mismatch at Swiss Prot position
    3
    L
-   with long sequence position
+   with PDB sequence position
    5
    T
-   Mismatch at short sequence position
+   Mismatch at Swiss Prot position
    4
    L
-   with long sequence position
+   with PDB sequence position
    6
    T
    >>>
    >>> show_mismatches ("test/test2.faa", "test/test1.faa")
-   Mismatch at short sequence position
+   Mismatch at Swiss Prot position
    3
    L
-   with long sequence position
+   with PDB sequence position
    5
    T
-   Mismatch at short sequence position
+   Mismatch at Swiss Prot position
    4
    L
-   with long sequence position
+   with PDB sequence position
    6
    T
    >>> 
@@ -256,7 +262,7 @@ def show_mismatches (sprot_file, pdb_file):
    #use check_all_offsets to get best number of matches and best offset to use for this alignment
    (best_number_of_matches, best_offset) = check_all_offsets (sprot_file, pdb_file)
    #use identify)short_sequence to get the two sequences
-   (long_seq, short_seq) = identify_short_sequence (sprot_file, pdb_file)
+   (long_seq, short_seq, a) = identify_short_sequence (sprot_file, pdb_file)
    #check all positions along the short sequence
    positions = range(len(short_seq))
    
@@ -266,13 +272,25 @@ def show_mismatches (sprot_file, pdb_file):
       if ((x + best_offset < len(long_seq)) and
       (long_seq[x + best_offset] != short_seq[x])):
          #print the mismatches relative to short and long sequence position
-         print ("Mismatch at short sequence position") 
-         #1st position is the first letter (not like python with position 0 being first)
-         print (x + 1) 
-         print(short_seq[x])
-         print ("with long sequence position")
-         print (x + best_offset + 1) 
-         print(long_seq[(x + best_offset)])
+         if a == 1:
+            #for if the PDB sequence is the shorter sequence
+            print ("Mismatch at PDB sequence position") 
+            #1st position is the first letter (not like python with position 0 being first)
+            print (x + 1) 
+            print(short_seq[x])
+            print ("with Swiss Prot sequence position")
+            print (x + best_offset + 1) 
+            print(long_seq[(x + best_offset)])
+         elif a == 0: 
+            #For if the Swiss Prot sequence is the shorter sequence
+            print ("Mismatch at Swiss Prot position") 
+            #1st position is the first letter (not like python with position 0 being first)
+            print (x + 1) 
+            print (short_seq[x])
+            print ("with PDB sequence position")
+            print (x + best_offset + 1) 
+            print (long_seq[(x + best_offset)])
+
 
 
 
@@ -300,7 +318,7 @@ def get_mutations (sprot_file, pdb_file):
    #use check_all_offsets to get best number of matches and best offset to use for this alignment
    (best_number_of_matches, best_offset) = check_all_offsets (sprot_file, pdb_file)
    #use identify_short_sequence to get the two sequences
-   (long_seq, short_seq) = identify_short_sequence (sprot_file, pdb_file)
+   (long_seq, short_seq, a) = identify_short_sequence (sprot_file, pdb_file)
    #check all positions along the short sequence
    positions = range(len(short_seq))
    
